@@ -9,7 +9,7 @@ const News = () => {
       try {
         const apiKey = import.meta.env.VITE_NEWSAPI_KEY;
         const response = await fetch(
-          `http://api.mediastack.com/v1/news?access_key=${apiKey}&categories=technology&languages=en&limit=10`
+          `https://api.mediastack.com/v1/news?access_key=${apiKey}&categories=technology&languages=en&limit=10`
         );
 
         if (!response.ok) {
