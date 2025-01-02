@@ -6,19 +6,34 @@ const News = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      try {
-        const apiKey = import.meta.env.VITE_NEWSAPI_KEY;
-        const response = await fetch(
-          `https://newsapi.org/v2/everything?q=robotics&language=en&sortBy=publishedAt&apiKey=${apiKey}`
-        );
-        const data = await response.json();
-        setArticles(data.articles || []);
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        try {
+          const apiKey = import.meta.env.VITE_NEWSAPI_KEY;
+          console.log("Using API Key:", apiKey);
+      
+          const response = await fetch(
+            `https://newsapi.org/v2/everything?q=robotics&language=en&sortBy=publishedAt&apiKey=${apiKey}`,
+            {
+              headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+              },
+            }
+          );
+      
+          console.log("Response Status:", response.status);
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Fetched Articles:", data);
+          setArticles(data.articles || []);
+        } catch (error) {
+          console.error("Error fetching news:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
     fetchNews();
   }, []);
